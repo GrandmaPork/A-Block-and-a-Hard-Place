@@ -513,3 +513,7 @@ fabric.properties
 
 # Minecraft datapack tags
 !**/tags
+
+# Built modpack files
+/build/**.zip
+/build/**.mrpack

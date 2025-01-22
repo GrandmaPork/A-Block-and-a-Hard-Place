@@ -1,0 +1,107 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Get mod pack version from pack.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: mod_pack_version
+        with:
+          file: pack.toml
+          field: version
+
+      - name: Get supported Minecraft version from pack.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: minecraft_version
+        with:
+          file: pack.toml
+          field: versions.minecraft
+
+      - name: Print version string
+        run: echo version string ${{ steps.mod_pack_version.outputs.value }}+mc${{ steps.minecraft_version.outputs.value }}
+
+      - name: Set release tag name environment variable
+        run: echo release_tag_name=v${{ steps.mod_pack_version.outputs.value }}+mc${{ steps.minecraft_version.outputs.value }} >> $GITHUB_ENV
+
+      - name: Get existing release
+        uses: cardinalby/git-get-release-action@v1
+        id: get_existing_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: ${{ env.release_tag_name }}
+          doNotFailIfNotFound: true
+
+      - name: Check if an existing release with the same version exists
+        if: steps.get_existing_release.outputs.tag_name == env.release_tag_name
+        run: exit 1
+
+      - name: Install Go
+        uses: actions/setup-go@v5.3.0
+
+      - name: Install Packwiz
+        run: go install github.com/packwiz/packwiz@latest
+
+      - name: Get ID from pack_ext.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: id
+        with:
+          file: pack_ext.toml
+          field: mod_pack.id
+
+      - name: Copy mod pack files to build/
+        run: |
+          mkdir build/
+          packwiz curseforge export -o build/${{ steps.id.value }}-curseforge-${{ env.release_tag_name }}.zip
+          packwiz modrinth export -o build/${{ steps.id.value }}-modrinth--${{ env.release_tag_name }}.mrpack
+
+      - name: Get CurseForge project ID from pack_ext.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: curseforge_project_id
+        with:
+          file: pack_ext.toml
+          field: publishing.curseforge_project_id
+
+      - name: Get Modrinth project ID from pack_ext.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: modrinth_project_id
+        with:
+          file: pack_ext.toml
+          field: publishing.modrinth_project_id
+
+      # https://github.com/marketplace/actions/mc-publish
+      - name: Publish mod pack
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          # GitHub
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Modrinth
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-id: ${{ steps.modrinth_project_id.outputs.value }}
+
+          # CurseForge
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          curseforge-id: ${{ steps.curseforge_project_id.outputs.value }}
+
+          name: ${{ steps.mod_pack_version.outputs.value }} (${{ steps.minecraft_version.outputs.value }})
+          github-tag: ${{ env.release_tag_name }}
+          files: |
+            build/*.zip
+            build/*.mrpack
+          version-type: release
+          loaders: minecraft
+          game-versions: ${{ steps.minecraft_version.outputs.value }}
+          modrinth-featured: false
+          changelog-file: CHANGELOG_LATEST.md

@@ -1,6 +1,14 @@
 hash-format = "sha256"
 
 [[files]]
+file = ".github/workflows/main.yml"
+hash = "c32b42781d4c55bb29b77051f5748bbab3ce4f84214886d5daa93fe248743302"
+
+[[files]]
+file = ".github/workflows/publish.yml"
+hash = "7c8ead73f1bf891404d3548efe637a49d98e98ede2047ff5b95e8a3f54fc5767"
+
+[[files]]
 file = "bsl-shaders.pw.toml"
 hash = "c384d1c117331920a44021339b534c9129286b78ccdf54cda7a41a3ce75529e4"
 metafile = true

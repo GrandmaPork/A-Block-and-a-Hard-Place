@@ -1,0 +1,96 @@
+name: Modpack CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  skip_duplicate_jobs:
+    name: Skip duplicate jobs
+    continue-on-error: true # Uncomment once integration is finished
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          paths_ignore: '["**/README.md", "**/docs/**", "**/.gitignore", "**/LICENSE"]'
+          concurrent_skipping: same_content_newer
+
+  build_and_publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    needs: skip_duplicate_jobs
+    if: needs.skip_duplicate_jobs.outputs.should_skip != 'true'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Get mod pack version from pack.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: mod_pack_version
+        with:
+          file: pack.toml
+          field: version
+
+      - name: Get supported Minecraft version from pack.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: minecraft_version
+        with:
+          file: pack.toml
+          field: versions.minecraft
+
+      - name: Print version string
+        run: echo version string ${{ steps.mod_pack_version.outputs.value }}+mc${{ steps.minecraft_version.outputs.value }}
+
+      - name: Set release tag name environment variable
+        run: echo release_tag_name=v${{ steps.mod_pack_version.outputs.value }}+mc${{ steps.minecraft_version.outputs.value }} >> $GITHUB_ENV
+
+      - name: Get existing release
+        uses: cardinalby/git-get-release-action@v1
+        id: get_existing_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: ${{ env.release_tag_name }}
+          doNotFailIfNotFound: true
+
+      - name: Check if an existing release with the same version exists
+        if: steps.get_existing_release.outputs.tag_name == env.release_tag_name
+        run: exit 1
+
+      - name: Install Go
+        uses: actions/setup-go@v5.3.0
+
+      - name: Install Packwiz
+        run: go install github.com/packwiz/packwiz@latest
+
+      - name: Get ID from pack_ext.toml
+        uses: SebRollen/toml-action@v1.2.0
+        id: id
+        with:
+          file: pack_ext.toml
+          field: mod_pack.id
+
+      - name: Copy mod pack files to build/
+        run: |
+          mkdir build/
+          packwiz curseforge export -o build/${{ steps.id.value }}-curseforge-${{ env.release_tag_name }}.zip
+          packwiz modrinth export -o build/${{ steps.id.value }}-modrinth--${{ env.release_tag_name }}.mrpack
+
+      - name: Upload Gradle artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: exported_mod_pack_files
+          path: |
+            build/*.zip
+            build/*.mrpack
