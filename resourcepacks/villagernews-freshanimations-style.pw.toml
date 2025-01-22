@@ -1,0 +1,13 @@
+name = "VillagerNews FreshAnimations Style"
+filename = "VillagerNewsFreshAnimations 1.19 - 1.20+.zip"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "fe25608e0028f8311b730e780b969222cac36e1c"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 5036517
+project-id = 946833

@@ -1,0 +1,16 @@
+name = "MoreMcmeta Emissive Textures (Forge)"
+filename = "emissive-plugin-1.20.1-2.0.4-forge.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "3e8b0ff63e1fe62caed7fb6dfa86011a5f931fcc"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 4898803
+project-id = 880880
+
+[option]
+optional = true

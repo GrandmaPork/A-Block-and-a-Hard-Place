@@ -1,0 +1,13 @@
+name = "Loot Beams: Relooted!"
+filename = "lootbeams-1.20.1-1.2.6.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "6b36aa6fb6adf19ce5c6c045e5cf0c292d28d505"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 5548970
+project-id = 506757

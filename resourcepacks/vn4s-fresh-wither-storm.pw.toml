@@ -1,0 +1,13 @@
+name = "VN4's Fresh Wither Storm"
+filename = "§5VN4's §l§2FWS+RWS Detailed.zip"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "72e69de054a1bc5b7a60a91f87988c95e5b12c33"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 5867747
+project-id = 1019622

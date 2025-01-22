@@ -1,0 +1,13 @@
+name = "Potacore"
+filename = "potacore-0.2.8-universal.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "d1b8c491456b94b372e45d631a9a0fa72011cd2b"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 5104930
+project-id = 951521

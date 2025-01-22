@@ -1,0 +1,13 @@
+name = "Cubify's Potato Witherstorm"
+filename = "Cubify's Potato Witherstorm.zip"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "477d34842cca6d2e3f3a742f4c56f5554e1957d3"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 5230492
+project-id = 996504

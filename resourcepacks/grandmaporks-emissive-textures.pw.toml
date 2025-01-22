@@ -1,0 +1,13 @@
+name = "GrandmaPork's Emissive Textures"
+filename = "GrandmaPork'sEmissives - 0.7.zip"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "19eeff68f328c11794bcee988883c83eb4a4a94f"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 5466514
+project-id = 663503

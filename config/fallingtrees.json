@@ -1,0 +1,20 @@
+{
+  "client": {
+    "invertCrouchMining": false,
+    "soundSettings": {
+      "enabled": true,
+      "startVolume": 0.7,
+      "endVolume": 0.7
+    }
+  },
+  "common": {
+    "limit": {
+      "limitType": "BASE_BLOCK_AMOUNT",
+      "blockAmountLimit": 200,
+      "onlyRequiredTool": false
+    },
+    "isCrouchMiningAllowed": true,
+    "multiplyToolDamage": true,
+    "multiplyFoodExhaustion": true
+  }
+}

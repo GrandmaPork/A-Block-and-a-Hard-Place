@@ -1,0 +1,13 @@
+name = "WaterPhysics"
+filename = "waterphysics-1.20-1.1.0.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "9f9909befa7618e5a6b460bbfc589e67d5ca245f"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 4919885
+project-id = 740025
