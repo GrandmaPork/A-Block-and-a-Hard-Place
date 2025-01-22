@@ -63,8 +63,8 @@ jobs:
       - name: Copy mod pack files to build/
         run: |
           mkdir build/
-          packwiz curseforge export -o build/${{ steps.id.value }}-curseforge-${{ env.release_tag_name }}.zip
-          packwiz modrinth export -o build/${{ steps.id.value }}-modrinth--${{ env.release_tag_name }}.mrpack
+          packwiz curseforge export -o build/${{ steps.id.outputs.value }}-curseforge-${{ env.release_tag_name }}.zip
+          packwiz modrinth export -o build/${{ steps.id.outputs.value }}-modrinth-${{ env.release_tag_name }}.mrpack
 
       - name: Get CurseForge project ID from pack_ext.toml
         uses: SebRollen/toml-action@v1.2.0
