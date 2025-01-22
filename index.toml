@@ -793,7 +793,7 @@ metafile = true
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
-hash = "5a502f5cea446e0aa96f8882c761ca36ae25263b2503084338906addd42df7db"
+hash = "ad565033ec9989b2e30d782c309f0c8c90630286d8ecac0bed404df5d76f34d2"
 metafile = true
 
 [[files]]
@@ -959,6 +959,11 @@ hash = "2b05a5164c2aced2910be4d85a145bd485aec9843119028ff66fa4cd3a7b197c"
 metafile = true
 
 [[files]]
+file = "resourcepacks/icon-xaeros-x-freshanimations.pw.toml"
+hash = "3354a59cd3d2de0d82218ec5b1ef136c90405cdcf3f4da862c6f42b57d9e31d4"
+metafile = true
+
+[[files]]
 file = "resourcepacks/icons-xaero-minimap-x-fresh-animations.pw.toml"
 hash = "9d1e6f22a49e2a66d90c55bfabed7bf71af46ab4b39dfde5446b897171b1f0a4"
 metafile = true
@@ -970,7 +975,7 @@ metafile = true
 
 [[files]]
 file = "resourcepacks/vn4s-fresh-wither-storm.pw.toml"
-hash = "53946f83af8b70dee0489cccc1443be2febe0034da033a92c4678015199b5cf4"
+hash = "73b830eec94b68b9091f158523a3487040ef5e577d3de05d2d2718e003df3c22"
 metafile = true
 
 [[files]]
